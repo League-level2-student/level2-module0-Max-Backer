@@ -40,41 +40,69 @@ import processing.core.PApplet;
 public class _03_VisualArraySorter extends PApplet {
     static final int WIDTH = 600;
     static final int HEIGHT = 400;
+    int[] array;
 
     @Override
     public void settings() {
-        
+        size(500, 500);
     }
 
     @Override
     public void setup() {
-        
+        noStroke();
+        arrayRandomizer(); // Initialize the array with random values when the program starts
     }
 
     @Override
     public void draw() {
-        
+        background(100);
+        fill(45);
+
+        // Draw the rectangles based on the array values
+        for (int i = 0; i < array.length; i++) {
+            int x = i * WIDTH / array.length;
+            int width = WIDTH / array.length;
+            int height = -array[i];
+
+            rect(x, 50, width, height);
+        }
+
+        // Sort the array using stepSort
+        stepSort(array);
+
+        // If the mouse is pressed, randomize the array again
+        if (mousePressed) {
+            arrayRandomizer();
+        }
+    }
+
+    // Method to fill the array with random values
+    public void arrayRandomizer() {
+        array = new int[50]; // Initialize the array here
+        for (int i = 0; i < array.length; i++) {
+            array[i] = (int) random(height); // Fill the array with random heights
+        }
     }
 
     static public void main(String[] passedArgs) {
         PApplet.main(_03_VisualArraySorter.class.getName());
     }
-    
+
     /*********************** DO NOT MODIFY THE CODE BELOW ********************/
-    
+
     int startIndex = 1;
 
     void stepSort(int[] arr) {
-      for (int i = startIndex; i < arr.length; i++) {
-        if (arr[i - 1] > arr[i]) {
-          int t = arr[i];
-          arr[i] = arr[i - 1];
-          arr[i - 1] = t;
+        for (int i = startIndex; i < arr.length; i++) {
+            if (arr[i - 1] > arr[i]) {
+                int t = arr[i];
+                arr[i] = arr[i - 1];
+                arr[i - 1] = t;
 
-          startIndex = i;
-          return;
+                startIndex = i;
+                return;
+            }
         }
-      }
-      startIndex = 1;
+        startIndex = 1;
     }
 }
